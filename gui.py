@@ -13,6 +13,14 @@ class appli(tk.Tk):
         super().__init__()
         self.title("Brick Break")
         self.geometry("500x500")
-        self
+        Canvas=tk.Canvas(self, width=450, height=400, bg='black')
+        Canvas.pack()
+        
+
+    
+
+
+
+
 
     
