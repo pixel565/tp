@@ -1,3 +1,5 @@
+import tkinter as tk
 import gui as gui
 
-gui.initfenetre()
+logi=gui.appli()
+logi.mainloop()
