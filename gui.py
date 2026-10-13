@@ -36,22 +36,19 @@ class appli(tk.Tk):
         self.jeu = tk.Toplevel(self)
         self.Canvas = tk.Canvas(self.jeu, width=largeur, height=hauteur, bg="black")
         self.Canvas.pack()
-        self.raquette()
         self.boule()
-        
+        self.raquette()
 
     def boule(self):
         self.xb = largeur / 2
-        self.yb = hauteur *2 / 3
-        self.balle = self.Canvas.create_oval(
-            self.xb - rayon, self.yb - rayon, self.xb + rayon, self.yb + rayon,
-            fill="red"
-        )
+        self.yb = hauteur / 3
+        self.balle = self.Canvas.create_oval(self.xb - rayon, self.yb - rayon, self.xb + rayon, self.yb + rayon,fill="red")
         self.vitesse = rd.uniform(1.8, 2) * 5
         self.angle = rd.uniform(-2 * math.pi, 0)
         self.dx = self.vitesse * math.cos(self.angle)
         self.dy = self.vitesse * math.sin(self.angle)
         self.deplacementBoule()
+        
         
     def deplacementBoule(self):
             """ Déplacement de la balle """
@@ -82,10 +79,10 @@ class appli(tk.Tk):
                 #self.pv -=1
 
             #Collision avec la raquette
-            if self.xb>self.xr-(3/2)*rayon and self.xb<self.xr+(3/2)*rayon :
+            if self.xb>self.xr-rayon and self.xb<self.xr+rayon :
                 if self.yb-rayon<self.yr+5 and self.yb-rayon >self.yr-5:
-                    #self.yb = 2*(hauteur - (self.yr + 5) -rayon)-self.yb
-                    self.dy = -self.dy
+                    self.yb = 2*(hauteur - (self.yr + 5) -rayon)-self.yb
+                    dy = -dy
     
         
             self.xb = self.xb + self.dx
@@ -97,14 +94,29 @@ class appli(tk.Tk):
 
     def raquette(self):
         self.xr = largeur/2
-        self.yr = hauteur *3 /4
-        self.raq = self.Canvas.create_rectangle(self.xr-2*rayon, self.yr+5,self.xr+2*rayon, self.yr-5, fill='blue')
+        self.yr = hauteur/4
+        self.raq = self.Canvas.create_rectangle(self.xr-rayon, self.yr+5,self.xr+rayon, self.yr-5, fill='blue')
         self.mvt_raquette()
-    def move_xr(self, modif):
-        self.xr += modif
+    
+    def move(self, var, modif):
+        var += modif
     
     def mvt_raquette(self):
-        self.bind("<Left>", lambda event : self.move_xr(-10))
-        self.bind("<Right>", lambda event : self.move_xr(10))
-        self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
+        self.bind("<Left>", lambda event : self.move(self.xr, -5))
+        self.bind("<Right>", lambda event : self.move(self.xr, 5))
+        self.Canvas.coords(self.raq, self.xr-rayon, self.yr+5,self.xr+rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
+
+
+
+
+
+
+   
+
+
+
+
+    
+
+
