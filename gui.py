@@ -1,7 +1,7 @@
 """"
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
-When : 06/10/2026 à 8h56 (dernière modif: )
+When : 06/10/2026 à 8h56 (dernière modif: 13/102026 à 10h24)
 To do : Faire marcher les fenetres menu et jeu
 """
 
@@ -39,10 +39,10 @@ class appli(tk.Tk):
         self.boule()
 
     def boule(self):
-        self.x = largeur / 2
-        self.y = hauteur / 3
+        self.xb = largeur / 2
+        self.yb = hauteur / 3
         self.balle = self.Canvas.create_oval(
-            self.x - rayon, self.y - rayon, self.x + rayon, self.y + rayon,
+            self.xb - rayon, self.yb - rayon, self.xb + rayon, self.yb + rayon,
             fill="red"
         )
         self.vitesse = rd.uniform(1.8, 2) * 5
@@ -55,37 +55,59 @@ class appli(tk.Tk):
             """ Déplacement de la balle """
             
             # rebond à droite
-            if self.x + rayon + self.dx > largeur:
-                self.x = 2*(largeur-rayon)-self.x
+            if self.xb + rayon + self.dx > largeur:
+                self.xb = 2*(largeur-rayon)-self.xb
                 self.dx = -self.dx
             
             # rebond à gauche
-            if self.x - rayon + self.dx < 0:
-                self.x = 2*rayon-self.x
+            if self.xb - rayon + self.dx < 0:
+                self.xb = 2*rayon-self.xb
                 self.dx = -self.dx
             
             # rebond en haut
-            if self.y - rayon + self.dy < 0:
-                self.y = 2*rayon - self.y
+            if self.yb - rayon + self.dy < 0:
+                self.yb = 2*rayon - self.yb
                 self.dy = -self.dy
     
             # passage en bas
-            if self.y + rayon + self.dy > hauteur:
-                self.x = largeur/2
-                self.y = hauteur/3
+            if self.yb + rayon + self.dy > hauteur:
+                self.xb = largeur/2
+                self.yb = hauteur/3
                 self.vitesse = rd.uniform(1.8,2)*5
                 self.angle = rd.uniform(-2*math.pi, 0)
                 self.dx = self.vitesse*math.cos(self.angle)
                 self.dy = self.vitesse*math.sin(self.angle)
                 #self.pv -=1
+
+            #Collision avec la raquette
+            if self.xb>self.xr-rayon and self.xb<self.xr+rayon :
+                if self.yb-rayon<self.yr+5 and self.yb-rayon >self.yr-5:
+                    self.yb = 2*(hauteur - (self.yr + 5) -rayon)-self.yb
+                    dy = -dy
     
         
-            self.x = self.x + self.dx
-            self.y = self.y + self.dy
+            self.xb = self.xb + self.dx
+            self.yb = self.yb + self.dy
             # affichage
             self.Canvas.coords(self.balle,self.x-rayon,self.y-rayon,self.x+rayon,self.y+rayon)
             # mise à jour toutes les 50 ms
             self.after(50,self.deplacementBoule)
+
+    def raquette(self):
+        self.xr = largeur/2
+        self.yr = hauteur/4
+        self.raq = self.Canvas.create_rectangle(self.xr-rayon, self.yr+5,self.xr+rayon, self.yr-5, fill='blue')
+    
+    def move(self, var, modif):
+        var += modif
+    
+    def mvt_raquette(self):
+        self.bind("<Left>", lambda event : self.move(self.xr, -5))
+        self.bind("<Right>", lambda event : self.move(self.xr, 5))
+        self.Canvas.coords(self.raq, self.xr-rayon, self.yr+5,self.xr+rayon, self.yr-5)
+        self.after(50, self.mvt_raquette)
+
+        
 
 
 
