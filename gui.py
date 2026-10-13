@@ -1,7 +1,7 @@
 """"
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
-When : 06/10/2026 à 8h56 (dernière modif: 13/102026 à 10h24)
+When : 06/10/2026 à 8h56 (dernière modif: 13/10/2026 à 11h22 par Guillaume)
 To do : Faire marcher les fenetres menu et jeu
 """
 
@@ -76,15 +76,17 @@ class appli(tk.Tk):
                 self.xb = largeur/2
                 self.yb = hauteur/3
                 self.vitesse = rd.uniform(1.8,2)*5
-                self.angle = rd.uniform(-2*math.pi, 0)
+                self.angle = rd.uniform(0, 2*math.pi)
                 self.dx = self.vitesse*math.cos(self.angle)
                 self.dy = self.vitesse*math.sin(self.angle)
+                self.xr = largeur/2
+                self.yr = hauteur *3 /4
                 #self.pv -=1
 
             #Collision avec la raquette
-            if self.xb>self.xr-(3/2)*rayon and self.xb<self.xr+(3/2)*rayon :
-                if self.yb-rayon<self.yr+5 and self.yb-rayon >self.yr-5:
-                    #self.yb = 2*(hauteur - (self.yr + 5) -rayon)-self.yb
+            if self.xb + rayon + self.dx>self.xr-(3/2)*rayon and self.xb - rayon + self.dx <self.xr+(3/2)*rayon :
+                if self.yb + self.dy +rayon<self.yr+5 and self.yb + self.dy + rayon >self.yr-5:
+                    self.yb = self.yr - 5 - rayon
                     self.dy = -self.dy
     
         
