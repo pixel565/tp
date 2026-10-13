@@ -108,5 +108,9 @@ class appli(tk.Tk):
     def mvt_raquette(self):
         self.bind("<Left>", lambda event : self.move_xr(-10))
         self.bind("<Right>", lambda event : self.move_xr(10))
+        if self.xr + (3/2)*rayon > largeur:
+            self.xr = largeur - (3/2)*rayon
+        elif self.xr - (3/2)*rayon < 0:
+            self.xr = (3/2)*rayon
         self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
