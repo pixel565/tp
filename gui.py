@@ -2,7 +2,7 @@
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
 When : 06/10/2026 à 8h56 (dernière modif: )
-To do : 
+To do : Faire marcher les fenetres menu et jeu
 """
 
 #Importations bibliothèques
@@ -20,63 +20,82 @@ class appli(tk.Tk):
         super().__init__()
         self.title("Brick Break")
         self.geometry("500x500")
-        self.Canvas=tk.Canvas(self, width=largeur, height=hauteur, bg='black')
-        self.Canvas=tk.Canvas(self, width=450, height=400, bg='white')
+        self.btn_jeu=tk.Button(self, text="Brick Break", command=self.jeu)
+        self.btn_options=tk.Button(self, text="Options", command= self.options)
+        self.btn_jeu.pack()
+        self.btn_options.pack()
+        
+  
+
+
+    def jeu(self):
+        self.jeu = tk.Toplevel(self)
+        self.Canvas = tk.Canvas(self.jeu, width=largeur, height=hauteur, bg="black")
         self.Canvas.pack()
-        self.Button=tk.Button(self, text="Quitter", fg="navy", command=self.destroy)
-        self.Button.pack()
-    #dessine la boule rouge    
+        self.boule()
+
     def boule(self):
-        self.x = largeur/2
-        self.y = hauteur/3
-        self.balle = self.Canvas.create_oval(self.x-rayon, self.y-rayon, self.x+rayon, self.y+rayon, fill='red')
-        self.vitesse = rd.uniform(1.8,2)*5
-        self.angle = rd.uniform(-2*math.pi, 0)
-        self.dx = self.vitesse*math.cos(self.angle)
-        self.dy = self.vitesse*math.sin(self.angle)
+        self.x = largeur / 2
+        self.y = hauteur / 3
+        self.balle = self.Canvas.create_oval(
+            self.x - rayon, self.y - rayon, self.x + rayon, self.y + rayon,
+            fill="red"
+        )
+        self.vitesse = rd.uniform(1.8, 2) * 5
+        self.angle = rd.uniform(-2 * math.pi, 0)
+        self.dx = self.vitesse * math.cos(self.angle)
+        self.dy = self.vitesse * math.sin(self.angle)
+        self.deplacementBoule()
+        
     def deplacementBoule(self):
-        """ Déplacement de la balle """
-        
-        # rebond à droite
-        if self.x + rayon + self.dx > largeur:
-            self.x = 2*(largeur-rayon)-self.x
-            self.dx = -self.dx
-        
-        # rebond à gauche
-        if self.x - rayon + self.dx < 0:
-            self.x = 2*rayon-self.x
-            self.dx = -self.dx
-        
-        # rebond en haut
-        if self.y - rayon + self.dy < 0:
-            self.y = 2*rayon - self.y
-            self.dy = -self.dy
-
-        # passage en bas
-        if self.y + rayon + self.dy > hauteur:
-            self.x = largeur/2
-            self.y = hauteur/3
-            self.vitesse = rd.uniform(1.8,2)*5
-            self.angle = rd.uniform(-2*math.pi, 0)
-            self.dx = self.vitesse*math.cos(self.angle)
-            self.dy = self.vitesse*math.sin(self.angle)
-            #self.pv -=1
-
+            """ Déplacement de la balle """
+            
+            # rebond à droite
+            if self.x + rayon + self.dx > largeur:
+                self.x = 2*(largeur-rayon)-self.x
+                self.dx = -self.dx
+            
+            # rebond à gauche
+            if self.x - rayon + self.dx < 0:
+                self.x = 2*rayon-self.x
+                self.dx = -self.dx
+            
+            # rebond en haut
+            if self.y - rayon + self.dy < 0:
+                self.y = 2*rayon - self.y
+                self.dy = -self.dy
     
-        self.x = self.x + self.dx
-        self.y = self.y + self.dy
-        # affichage
-        self.Canvas.coords(self.balle,self.x-rayon,self.y-rayon,self.x+rayon,self.y+rayon)
-        # mise à jour toutes les 50 ms
-        self.after(50,self.deplacementBoule)
+            # passage en bas
+            if self.y + rayon + self.dy > hauteur:
+                self.x = largeur/2
+                self.y = hauteur/3
+                self.vitesse = rd.uniform(1.8,2)*5
+                self.angle = rd.uniform(-2*math.pi, 0)
+                self.dx = self.vitesse*math.cos(self.angle)
+                self.dy = self.vitesse*math.sin(self.angle)
+                #self.pv -=1
+    
+        
+            self.x = self.x + self.dx
+            self.y = self.y + self.dy
+            # affichage
+            self.Canvas.coords(self.balle,self.x-rayon,self.y-rayon,self.x+rayon,self.y+rayon)
+            # mise à jour toutes les 50 ms
+            self.after(50,self.deplacementBoule)
 
 
-class jeu(appli):
-    appli.Toplevel
-    appli.Canvas_jeu=tk.Canvas(appli, bg='black')
-class menu(appli):
-    appli.Button_jouer=tk.Button(appli, text="Quitter", fg="navy", command=jeu(appli))
-    appli.Button_options=tk.Button(appli, text="Quitter", fg="navy", command=appli.options())
+    def options(self):
+        opt=tk.Toplevel(self, bg='white')
+        opt.geometry('500x500')
+        options = tk.Button(self, text="quitter", command=self.destroy)
+        options.pack()
+        
+
+
+
+   
+
+
 
 
     
