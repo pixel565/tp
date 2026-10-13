@@ -26,7 +26,11 @@ class appli(tk.Tk):
         self.btn_options.pack()
         
   
-
+    def options(self):
+        opt=tk.Toplevel(self, bg='white')
+        opt.geometry('500x500')
+        options = tk.Button(self, text="quitter", command=self.destroy)
+        options.pack()
 
     def jeu(self):
         self.jeu = tk.Toplevel(self)
@@ -84,12 +88,7 @@ class appli(tk.Tk):
             self.after(50,self.deplacementBoule)
 
 
-    def options(self):
-        opt=tk.Toplevel(self, bg='white')
-        opt.geometry('500x500')
-        options = tk.Button(self, text="quitter", command=self.destroy)
-        options.pack()
-        
+
 
 
 
