@@ -2,7 +2,7 @@
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
 When : 06/10/2026 à 8h56 (dernière modif: 13/10/2026 à 11h22 par Guillaume)
-To do : Faire marcher les fenetres menu et jeu
+To do : scores, vies, briques
 """
 
 #Importations bibliothèques
