@@ -114,3 +114,18 @@ class appli(tk.Tk):
             self.xr = (3/2)*rayon
         self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
+
+class brique :
+    def __init__(self, canvas, x, y, height=20, width=60, couleur="green"):
+        self.canvas= canvas
+        self.height = height
+        self.width = width
+        self.x= x
+        self.y= y
+        self.couleur=couleur
+
+
+
+
+    
+        
