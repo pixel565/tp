@@ -24,13 +24,14 @@ class appli(tk.Tk):
         self.btn_options=tk.Button(self, text="Options", command= self.options)
         self.btn_jeu.pack()
         self.btn_options.pack()
+
         
   
     def options(self):
-        opt=tk.Toplevel(self, bg='white')
-        opt.geometry('500x500')
-        options = tk.Button(self, text="quitter", command=self.destroy)
-        options.pack()
+        self.opt=tk.Toplevel(self)
+        self.opt.geometry('500x500')
+        self.options = tk.Button(self, text="quitter", command=self.destroy)
+        self.options.pack()
 
     def jeu(self):
         self.jeu = tk.Toplevel(self)
@@ -38,7 +39,7 @@ class appli(tk.Tk):
         self.Canvas.pack()
         self.raquette()
         self.boule()
-        
+        self.brique()
 
     def boule(self):
         self.xb = largeur / 2
@@ -115,14 +116,19 @@ class appli(tk.Tk):
         self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
 
-class brique :
-    def __init__(self, canvas, x, y, height=20, width=60, couleur="green"):
-        self.canvas= canvas
-        self.height = height
-        self.width = width
-        self.x= x
-        self.y= y
-        self.couleur=couleur
+    def brique(self):
+        self.draw = []
+        for i in range(0,450,50):
+            for j in range(0,200,60):
+                self.draw.append([i,j])
+        for x, y in self.draw:
+            self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
+
+  
+
+
+
+
 
 
 
