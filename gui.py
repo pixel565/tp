@@ -1,8 +1,8 @@
 """"
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
-When : 06/10/2026 à 8h56 (dernière modif: 13/10/2026 à 11h22 par Guillaume)
-To do : collision avec les briques
+When : 06/10/2026 à 8h56 (dernière modif: 20/10/2026 à 10h57 par Guillaume)
+To do : collision avec les briques et augmentation du score lorsque brique touchée
 """
 
 #Importations bibliothèques
@@ -45,6 +45,7 @@ class appli(tk.Tk):
         self.raquette()
         self.boule()
         self.brique()
+        self.collision_brick()
 
     def boule(self):
         self.xb = largeur / 2
@@ -138,9 +139,19 @@ class appli(tk.Tk):
         for i in range(0,450,50):
             for j in range(20,200,60):
                 self.draw.append([i,j])
-        for x, y in self.draw:
+        for x,y in self.draw:
             self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
 
+    def collision_brick(self):
+        for i in range(len(self.draw)):
+             if self.xb + rayon + self.dx>self.draw([i][0])-(3/2)*rayon and self.xb - rayon + self.dx <self.draw([i][0]+50)+(3/2)*rayon :
+                if self.yb + self.dy +rayon<self.draw([i][1]) and self.yb + self.dy + rayon >self.draw([i][1]-20):
+                    self.yb = self.draw([i][1]) - 20 - rayon
+                    self.xb = self.draw([i][0])-50-rayon
+                    self.dy = -self.dy
+                    self.dx=-self.dx
+                    self.draw.remove(i)
+                    score+=1
   
 
 
