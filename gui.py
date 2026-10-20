@@ -136,7 +136,7 @@ class appli(tk.Tk):
     def brique(self):
         self.draw = []
         for i in range(0,450,50):
-            for j in range(0,200,60):
+            for j in range(20,200,60):
                 self.draw.append([i,j])
         for x, y in self.draw:
             self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
