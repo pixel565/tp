@@ -28,17 +28,10 @@ class appli(tk.Tk):
         
   
     def options(self):
-<<<<<<< HEAD
         self.opt=tk.Toplevel(self)
         self.opt.geometry('500x500')
         self.options = tk.Button(self, text="quitter", command=self.destroy)
         self.options.pack()
-=======
-        self.opt=tk.Toplevel(self, bg='white')
-        self.opt.geometry('500x500')
-        self.quitter = tk.Button(self.opt, text="quitter", command=self.destroy)
-        self.quitter.pack()
->>>>>>> 332a9dd3c887e5bcab64437ae24d017357401bed
 
     def jeu(self):
         self.jeu = tk.Toplevel(self)
@@ -130,7 +123,6 @@ class appli(tk.Tk):
         self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
 
-<<<<<<< HEAD
     def brique(self):
         self.draw = []
         for i in range(0,450,50):
@@ -140,34 +132,15 @@ class appli(tk.Tk):
             self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
 
   
-=======
-    def mort(self):
-        if self.pv <= 0 :
-            self.jeu.destroy()
-            self.fen_mort = tk.Toplevel(self, bg = 'black')
-            self.fen_mort.title("Bonjour c'est la mort")
-            self.texte_mort = tk.Label(self.fen_mort, text= "VOUS ÊTES MORT", font = ('Optimus Princeps', 42), fg = 'red', bg = 'black')
-            self.texte_mort.pack()
->>>>>>> 332a9dd3c887e5bcab64437ae24d017357401bed
 
 
 
 
-<<<<<<< HEAD
-=======
-
-class brique :
-    def __init__(self, canvas, x, y, height=20, width=60, couleur="green"):
-        self.canvas= canvas
-        self.height = height
-        self.width = width
-        self.x= x
-        self.y= y
-        self.couleur=couleur
->>>>>>> 332a9dd3c887e5bcab64437ae24d017357401bed
 
 
 
 
+    
+        
     
         
