@@ -28,7 +28,6 @@ class appli(tk.Tk):
   
     def options(self):
         self.opt=tk.Toplevel(self, bg='white')
-        self.opt.geometry('500x500')
         self.quitter = tk.Button(self.opt, text="quitter", command=self.destroy)
         self.quitter.pack()
 
@@ -88,6 +87,7 @@ class appli(tk.Tk):
                 self.xr = largeur/2
                 self.yr = hauteur *15 /16
                 self.pv -=1
+                self.mort()
 
             #Collision avec la raquette
             if self.xb + rayon + self.dx>self.xr-(3/2)*rayon and self.xb - rayon + self.dx <self.xr+(3/2)*rayon :
@@ -129,6 +129,8 @@ class appli(tk.Tk):
             self.fen_mort.title("Bonjour c'est la mort")
             self.texte_mort = tk.Label(self.fen_mort, text= "VOUS ÊTES MORT", font = ('Optimus Princeps', 42), fg = 'red', bg = 'black')
             self.texte_mort.pack()
+            self.boutton_mort = tk.Button(self.fen_mort, text = "Retourner au menu", fg= 'red', bg= 'black', command= self.fen_mort.destroy)
+            self.boutton_mort.pack()
 
 
 
