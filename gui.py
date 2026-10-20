@@ -11,11 +11,12 @@ import tkinter as tk
 import random as rd
 import math
 
+#Valeurs importantes non-modifiables
 rayon = 15
 largeur = 450
 hauteur = 400
 
-class appli(tk.Tk):
+class appli(tk.Tk): #Creation et parametration du menu principal
     def __init__(self):
         super().__init__()
         self.title("Brick Break")
@@ -27,12 +28,12 @@ class appli(tk.Tk):
 
         
   
-    def options(self):
+    def options(self): #Creation et parametrage des options
         self.opt=tk.Toplevel(self, bg='white')
         self.quitter = tk.Button(self.opt, text="quitter", command=self.destroy)
         self.quitter.pack()
 
-    def jeu(self):
+    def jeu(self): #Creation et parametrage de la fenetre de jeu
         self.jeu = tk.Toplevel(self)
         self.Canvas = tk.Canvas(self.jeu, width=largeur, height=hauteur, bg="black")
         self.Canvas.pack()
@@ -46,7 +47,7 @@ class appli(tk.Tk):
         self.boule()
         self.brique()
 
-    def boule(self):
+    def boule(self): #Creation et initialisation de la balle
         self.xb = largeur / 2
         self.yb = hauteur *2 / 3
         self.balle = self.Canvas.create_oval(
@@ -105,15 +106,16 @@ class appli(tk.Tk):
             # mise à jour toutes les 50 ms
             self.after(50,self.deplacementBoule)
 
-    def raquette(self):
+    def raquette(self): #Creation de la raquette et mise en mouvement
         self.xr = largeur/2
         self.yr = hauteur * 15 / 16
         self.raq = self.Canvas.create_rectangle(self.xr-2*rayon, self.yr+5,self.xr+2*rayon, self.yr-5, fill='blue')
         self.mvt_raquette()
-    def move_xr(self, modif):
+    
+    def move_xr(self, modif): #Deplacement de la raquette
         self.xr += modif
     
-    def mvt_raquette(self):
+    def mvt_raquette(self): #Enclanche le mouvement de la raquette et vérifie qu'elle reste dans les bordures
         self.bind("<Left>", lambda event : self.move_xr(-10))
         self.bind("<Right>", lambda event : self.move_xr(10))
         if self.xr + (3/2)*rayon > largeur:
@@ -123,7 +125,7 @@ class appli(tk.Tk):
         self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
 
-    def mort(self):
+    def mort(self): #Fenètre de mort, l'une des fins du jeu
         if self.pv <= 0 :
             self.jeu.destroy()
             self.fen_mort = tk.Toplevel(self, bg = 'black')
@@ -133,7 +135,7 @@ class appli(tk.Tk):
             self.boutton_mort = tk.Button(self.fen_mort, text = "Retourner au menu", fg= 'red', bg= 'black', command= self.fen_mort.destroy)
             self.boutton_mort.pack()
     
-    def brique(self):
+    def brique(self): #Creation des briques
         self.draw = []
         for i in range(0,450,50):
             for j in range(20,200,60):
