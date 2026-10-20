@@ -36,6 +36,12 @@ class appli(tk.Tk):
         self.jeu = tk.Toplevel(self)
         self.Canvas = tk.Canvas(self.jeu, width=largeur, height=hauteur, bg="black")
         self.Canvas.pack()
+        self.pv = 5
+        self.texte_pv = self.Canvas.create_text(20,12, text= "PV :", font= ("Helvetica", 12), fill='yellow')
+        self.compteur_pv = self.Canvas.create_text(45, 12, text= str(self.pv), font= ("Helvetica", 12), fill='yellow')
+        self.score = 0
+        self.texte_score = self.Canvas.create_text(390, 12, text= "SCORE :", font= ("Helvetica", 12), fill='yellow')
+        self.compteur_score = self.Canvas.create_text(430, 12, text= str(self.score), font= ("Helvetica", 12), fill='yellow')
         self.raquette()
         self.boule()
         
@@ -80,8 +86,8 @@ class appli(tk.Tk):
                 self.dx = self.vitesse*math.cos(self.angle)
                 self.dy = self.vitesse*math.sin(self.angle)
                 self.xr = largeur/2
-                self.yr = hauteur *3 /4
-                #self.pv -=1
+                self.yr = hauteur *15 /16
+                self.pv -=1
 
             #Collision avec la raquette
             if self.xb + rayon + self.dx>self.xr-(3/2)*rayon and self.xb - rayon + self.dx <self.xr+(3/2)*rayon :
@@ -94,12 +100,13 @@ class appli(tk.Tk):
             self.yb = self.yb + self.dy
             # affichage
             self.Canvas.coords(self.balle,self.xb-rayon,self.yb-rayon,self.xb+rayon,self.yb+rayon)
+            self.Canvas.itemconfig(self.compteur_pv, text = str(self.pv))
             # mise à jour toutes les 50 ms
             self.after(50,self.deplacementBoule)
 
     def raquette(self):
         self.xr = largeur/2
-        self.yr = hauteur *3 /4
+        self.yr = hauteur * 15 / 16
         self.raq = self.Canvas.create_rectangle(self.xr-2*rayon, self.yr+5,self.xr+2*rayon, self.yr-5, fill='blue')
         self.mvt_raquette()
     def move_xr(self, modif):
