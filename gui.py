@@ -25,6 +25,9 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         self.btn_options=tk.Button(self, text="Options", command= self.options)
         self.btn_jeu.pack()
         self.btn_options.pack()
+        self.touches = set()
+        self.bind("<KeyPress>", self.appui)
+        self.bind("<KeyRelease>", self.relache)
 
         
   
@@ -53,7 +56,7 @@ class appli(tk.Tk): #Creation et parametration du menu principal
 
     def boule(self): #Creation et initialisation de la balle
         self.xb = largeur / 2
-        self.yb = hauteur *2 / 3
+        self.yb = hauteur * 2/3
         self.balle = self.Canvas.create_oval(
             self.xb - rayon, self.yb - rayon, self.xb + rayon, self.yb + rayon,
             fill="red"
@@ -85,7 +88,7 @@ class appli(tk.Tk): #Creation et parametration du menu principal
             # passage en bas
             if self.yb + rayon + self.dy > hauteur:
                 self.xb = largeur/2
-                self.yb = hauteur/3
+                self.yb = hauteur * 2/3
                 self.vitesse = rd.uniform(1.8,2)*5
                 self.angle = rd.uniform(0, 2*math.pi)
                 self.dx = self.vitesse*math.cos(self.angle)
@@ -115,13 +118,18 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         self.yr = hauteur * 15 / 16
         self.raq = self.Canvas.create_rectangle(self.xr-2*rayon, self.yr+5,self.xr+2*rayon, self.yr-5, fill='blue')
         self.mvt_raquette()
-    
-    def move_xr(self, modif): #Deplacement de la raquette
-        self.xr += modif
-    
+
+    def appui(self, event):
+        self.touches.add(event.keysym)
+
+    def relache(self, event):
+        self.touches.discard(event.keysym)
+
     def mvt_raquette(self): #Enclanche le mouvement de la raquette et vérifie qu'elle reste dans les bordures
-        self.bind("<Left>", lambda event : self.move_xr(-10))
-        self.bind("<Right>", lambda event : self.move_xr(10))
+        if "Left" in self.touches: 
+            self.xr -= 10
+        if "Right" in self.touches:
+            self.xr += 10
         if self.xr + (3/2)*rayon > largeur:
             self.xr = largeur - (3/2)*rayon
         elif self.xr - (3/2)*rayon < 0:
