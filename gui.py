@@ -44,9 +44,10 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         self.texte_score = self.Canvas.create_text(390, 12, text= "SCORE :", font= ("Helvetica", 12), fill='yellow')
         self.compteur_score = self.Canvas.create_text(430, 12, text= str(self.score), font= ("Helvetica", 12), fill='yellow')
         self.raquette()
-        self.boule()
         self.brique()
-        self.collision_brick()
+        self.boule()
+        
+
 
     def boule(self): #Creation et initialisation de la balle
         self.xb = largeur / 2
@@ -63,6 +64,16 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         
     def deplacementBoule(self):
             """ Déplacement de la balle """
+            #test collision liste brique/balle
+
+            for brique in list(self.draw):
+                if self.collision_brick(brique):
+                    self.Canvas.delete(brique)
+                    self.draw.remove(brique)
+                    self.dy= -self.dy
+                    self.score += 1
+                    self.Canvas.itemconfig(self.compteur_score, text=(self.score))
+
             
             # rebond à droite
             if self.xb + rayon + self.dx > largeur:
@@ -138,22 +149,27 @@ class appli(tk.Tk): #Creation et parametration du menu principal
     
     def brique(self): #Creation des briques
         self.draw = []
-        for i in range(0,450,50):
-            for j in range(20,200,60):
-                self.draw.append([i,j])
-        for x,y in self.draw:
-            self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
+        for x in range(0,largeur-40,50):
+            for y in range(20,200,60):
+                    brique=self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
+                    self.draw.append(brique)
 
-    def collision_brick(self):
-        for i in range(len(self.draw)):
-             if self.xb + rayon + self.dx>self.draw([i][0])-(3/2)*rayon and self.xb - rayon + self.dx <self.draw([i][0]+50)+(3/2)*rayon :
-                if self.yb + self.dy +rayon<self.draw([i][1]) and self.yb + self.dy + rayon >self.draw([i][1]-20):
-                    self.yb = self.draw([i][1]) - 20 - rayon
-                    self.xb = self.draw([i][0])-50-rayon
-                    self.dy = -self.dy
-                    self.dx=-self.dx
-                    self.draw.remove(i)
-                    score+=1
+    def collision_brick(self,coord_rect): # test unitaire de collision avec une brique
+        coords = self.Canvas.coords(coord_rect)
+        if not coords:
+            return False
+        rx, ry, rw, rh= coords
+        x_clamp=max(rx, min(self.xb + self.dx, rw))
+        y_clamp= max(ry , min(self.yb + self.dy, rh))
+        distx= (self.xb + self.dx) - x_clamp
+        disty= (self.yb + self.dy) - y_clamp
+        dist= distx**2 + disty**2
+        return (dist<=rayon**2)
+
+       
+
+
+
   
 
 
