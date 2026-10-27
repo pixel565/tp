@@ -1,7 +1,7 @@
 """"
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
-When : 06/10/2026 à 8h56 (dernière modif: 13/10/2026 à 11h22 par Guillaume)
+When : 06/10/2026 à 8h56 (dernière modif: 20/10/2026 à 11h50 par Guillaume)
 To do : collision avec les briques
 """
 
@@ -30,8 +30,11 @@ class appli(tk.Tk): #Creation et parametration du menu principal
   
     def options(self): #Creation et parametrage des options
         self.opt=tk.Toplevel(self, bg='white')
-        self.quitter = tk.Button(self.opt, text="quitter", command=self.destroy)
-        self.quitter.pack()
+        self.opt.title("Options")
+        self.quitter_opt = tk.Button(self.opt, text="Quitter Options", command= self.opt.destroy)
+        self.quitter_opt.pack()
+        self.quitter_jeu = tk.Button(self.opt, text="Quitter Jeu", command=self.destroy)
+        self.quitter_jeu.pack()
 
     def jeu(self): #Creation et parametrage de la fenetre de jeu
         self.jeu = tk.Toplevel(self)
@@ -125,7 +128,7 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         self.Canvas.coords(self.raq, self.xr-(3/2)*rayon, self.yr+5,self.xr+(3/2)*rayon, self.yr-5)
         self.after(50, self.mvt_raquette)
 
-    def mort(self): #Fenètre de mort, l'une des fins du jeu
+    def mort(self): #Fenetre de mort, l'une des fins du jeu
         if self.pv <= 0 :
             self.jeu.destroy()
             self.fen_mort = tk.Toplevel(self, bg = 'black')
@@ -134,7 +137,7 @@ class appli(tk.Tk): #Creation et parametration du menu principal
             self.texte_mort.pack()
             self.boutton_mort = tk.Button(self.fen_mort, text = "Retourner au menu", fg= 'red', bg= 'black', command= self.fen_mort.destroy)
             self.boutton_mort.pack()
-    
+
     def brique(self): #Creation des briques
         self.draw = []
         for i in range(0,450,50):
@@ -143,16 +146,13 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         for x, y in self.draw:
             self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
 
-  
 
-
-
-
-
-
-
-
-    
-        
-    
-        
+    def victoire(self): #Fenetre de victoire, autre fin du jeu
+        if self.score == 27 :
+            self.jeu.destroy()
+            self.fen_vict = tk.Toplevel(self, bg= 'gold')
+            self.fen_vict.title("Bravo")
+            self.texte_victoire = tk.Label(self.fen_vict, text="Félicitation ! \n Vous avez gagné !", bg = 'gold', fg ='blue')
+            self.texte_victoire.pack()
+            self.boutton_victoire = tk.Button(self.fen_vict, text= "Retour au menu", bg = 'gold', fg = 'blue', command= self.fen_vict.destroy)
+            self.boutton_victoire.pack()
