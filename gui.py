@@ -73,12 +73,18 @@ class appli(tk.Tk): #Creation et parametration du menu principal
             #test collision liste brique/balle
 
             for brique in list(self.draw):
+                cote=self.collision_brick(brique)
                 if self.collision_brick(brique):
                     self.Canvas.delete(brique)
                     self.draw.remove(brique)
-                    self.dy= -self.dy
+                    if cote == "y":
+                        self.dy= -self.dy
+                    else:
+                        self.dx=-self.dx
                     self.score += 1
                     self.Canvas.itemconfig(self.compteur_score, text=(self.score))
+                    self.victoire()
+                    break
 
             
             # rebond à droite
@@ -175,7 +181,18 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         distx= (self.xb + self.dx) - x_clamp
         disty= (self.yb + self.dy) - y_clamp
         dist= distx**2 + disty**2
-        return (dist<=rayon**2)
+
+        #pas de collision
+        if dist > rayon**2:
+            return None
+
+        #collision sur les côtés
+        if self.xb + rayon <= rx or rw <= self.xb - rayon:
+            return "x"
+        elif self.yb + rayon <= ry or self.yb - rayon >= rh:
+            return "y"
+
+        
 
        
 
