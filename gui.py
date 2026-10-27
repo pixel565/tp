@@ -1,7 +1,7 @@
 """"
 Que fait ce programme : interface graphique  
 Auteur : Guillaume Aribaut & Pierre Bolzinger
-When : 06/10/2026 à 8h56 (dernière modif: 20/10/2026 à 11h50 par Guillaume)
+When : 06/10/2026 à 8h56 (dernière modif: 27/10/2026 à 15h16 par Guillaume)
 To do : collision avec les briques
 """
 
@@ -49,6 +49,7 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         self.raquette()
         self.boule()
         self.brique()
+        self.collision_brick()
 
     def boule(self): #Creation et initialisation de la balle
         self.xb = largeur / 2
@@ -143,7 +144,7 @@ class appli(tk.Tk): #Creation et parametration du menu principal
         for i in range(0,450,50):
             for j in range(20,200,60):
                 self.draw.append([i,j])
-        for x, y in self.draw:
+        for x,y in self.draw:
             self.Canvas.create_rectangle(x, y, x+50, y+20, fill="green")
 
 
